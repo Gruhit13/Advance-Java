@@ -1,0 +1,15 @@
+<hibernate-mapping>
+	<class name="Question" table="question">
+		<id name="id">
+			<generator class="increment"></generator>
+		</id>
+
+		<property name="qname"></property>
+		
+		<list name="answers" table="answers">
+			<key column="qid"></key>
+			<index column="type"></index>
+			<element column="answer" type="string"></element>
+		</list>
+	</class>
+</hibernate-mapping>

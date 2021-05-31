@@ -1,0 +1,5 @@
+Hii
+this file is for testing.
+It contain text data.
+this text will be read by server.
+It will be sent to client then.

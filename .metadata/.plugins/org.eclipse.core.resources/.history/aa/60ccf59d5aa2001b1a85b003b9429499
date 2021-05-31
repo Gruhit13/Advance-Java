@@ -1,0 +1,63 @@
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.util.Scanner;
+
+public class UsingSQL implements DBConstants {
+	
+		public static void main(String[] args) {
+			Scanner inp = new Scanner(System.in);
+			
+			try {
+				Class.forName(SQLDriver);
+				
+				try {
+					Connection con = DriverManager.getConnection(SQLDB+"learning", username, password);
+					
+//					Insert data in DB
+					PreparedStatement ps = con.prepareStatement("insert into empinfo values(?, ?, ?)");
+					
+					String name;
+					int age, id;
+					
+					System.out.print("Enter Name:- "); name = inp.nextLine();
+					System.out.print("Enter ID: " ); id = inp.nextInt();
+					System.out.print("Enter age:- "); age = inp.nextInt();
+					
+					ps.setInt(1, id);
+					ps.setString(2, name);
+					ps.setInt(3, age);
+					
+					int r = ps.executeUpdate();
+					
+					if(r != 0) System.out.println("Data stored Successful");
+					else System.out.println("Failed to stored Data");
+					
+					String query = "select * from empinfo";
+					
+					Statement stmt = con.createStatement();
+					
+					ResultSet rs = stmt.executeQuery(query);
+					
+					System.out.println("Dispalying Data:- ");
+					while(rs.next()){
+						System.out.print("ID = " + rs.getInt(1));
+						System.out.print("\t Name: " + rs.getString(2));
+						System.out.println("\t Age: " + rs.getInt(3));
+					}
+					
+					
+					stmt.close();
+					con.close();
+				} catch(SQLException e) {
+					System.out.println("Error: " + e);
+				}
+			} catch(ClassNotFoundException e) {
+				System.out.println("Erro: " + e);
+			}
+	}
+
+}
